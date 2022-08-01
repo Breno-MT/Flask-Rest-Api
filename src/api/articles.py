@@ -1,30 +1,41 @@
-from flask_restx import Namespace, Resource
+from flask import request
+from flask_restx import Namespace, Resource, fields
+
+from src.articles.services import create_article, delete_article, get_all_articles, get_article, update_article
+
 
 api = Namespace("articles", description="Article Related operations")
+
+articles_fields = api.model(
+    "Article", {"title": fields.String, "content": fields.String}
+)
+
 
 class ArticleList(Resource):
 
     def get(self):
         """Get a list of articles"""
-        pass
-
+        return get_all_articles()
+    
+    @api.doc(body=articles_fields)
     def post(self):
         """Create a new article"""
-        pass
+        return create_article(request.get_json())
 
 
 class Article(Resource):
     def get(self, article_id):
         """Get an articles by ID"""
-        pass
+        return get_article(article_id)
 
+    @api.doc(body=articles_fields)
     def put(self, article_id):
         """Update an article by ID"""
-        pass
+        return update_article(article_id, request.get_json())
 
     def delete(self, article_id):
         """Delete an article by ID"""
-        pass
+        return delete_article(article_id)
 
 api.add_resource(ArticleList, "")
 api.add_resource(Article, "/<int:article_id>")
