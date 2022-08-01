@@ -1,4 +1,4 @@
-# Projeto Flask REST API 
+# 💻 Projeto Flask REST API
 > Dependências utilizadas 👇
 - 🌶 Flask
 - 🗄 SQLAlchemy
